@@ -1,5 +1,5 @@
 // orders.js
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const orderItemSchema = new mongoose.Schema({
   itemCode: { type: String, required: true },
@@ -63,4 +63,4 @@ orderSchema.methods.canTransitionTo = function(newStatus) {
 };
 
 const Order = mongoose.model("Order", orderSchema);
-export default Order;
+module.exports = Order;

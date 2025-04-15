@@ -1,7 +1,7 @@
 // cartController.js
-import Cart from '../models/cart.js';
+const Cart = require('../models/cart');
 
-export const getCart = async (req, res) => {
+const getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ customerEmail: req.params.email });
     res.status(200).json(cart || { customerEmail: req.params.email, items: [] });
@@ -10,7 +10,7 @@ export const getCart = async (req, res) => {
   }
 };
 
-export const updateCart = async (req, res) => {
+const updateCart = async (req, res) => {
   try {
     const { customerEmail, items } = req.body;
     if (!Array.isArray(items)) {
@@ -43,11 +43,17 @@ export const updateCart = async (req, res) => {
   }
 };
 
-export const clearCart = async (req, res) => {
+const clearCart = async (req, res) => {
   try {
     await Cart.findOneAndUpdate({ customerEmail: req.params.email }, { items: [] });
     res.status(200).json({ message: 'Cart cleared' });
   } catch (error) {
     res.status(500).json({ message: 'Error clearing cart', error: error.message });
   }
+};
+
+module.exports = {
+  getCart,
+  updateCart,
+  clearCart
 };

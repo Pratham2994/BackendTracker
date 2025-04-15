@@ -1,8 +1,8 @@
 // orderController.js
-import Order from '../models/orders.js';
-import { sendOrderNotificationEmail, sendOrderNotificationWhatsApp, sendOrderStatusNotificationEmail, sendTrackingUpdateNotificationEmail } from '../services/notificationService.js';
+const Order = require('../models/orders');
+const { sendOrderNotificationEmail, sendOrderNotificationWhatsApp, sendOrderStatusNotificationEmail, sendTrackingUpdateNotificationEmail } = require('../services/notificationService');
 
-export const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({});
     res.status(200).json(orders);
@@ -11,7 +11,7 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-export const createOrder = async (req, res) => {
+const createOrder = async (req, res) => {
   try {
     let { customerEmail, items, phoneNumber, expectedDeliveryDate, businessName, orderPlacerName } = req.body;
 
@@ -87,7 +87,7 @@ export const createOrder = async (req, res) => {
   }
 };
 
-export const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
   try {
     const orderId = req.params.orderId;
     const { orderStatus } = req.body;
@@ -143,7 +143,7 @@ export const updateOrderStatus = async (req, res) => {
   }
 };
 
-export const updateTrackingProgress = async (req, res) => {
+const updateTrackingProgress = async (req, res) => {
   try {
     const orderId = req.params.orderId;
     const { tracking } = req.body;
@@ -207,7 +207,7 @@ export const updateTrackingProgress = async (req, res) => {
   }
 };
 
-export const getCustomerOrders = async (req, res) => {
+const getCustomerOrders = async (req, res) => {
   try {
     const orders = await Order.find({ customerEmail: req.params.email });
     res.status(200).json(orders);
@@ -216,7 +216,7 @@ export const getCustomerOrders = async (req, res) => {
   }
 };
 
-export const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res) => {
   try {
     const orderId = req.params.orderId;
 
@@ -247,4 +247,13 @@ export const deleteOrder = async (req, res) => {
       error: error.message 
     });
   }
+};
+
+module.exports = {
+  getAllOrders,
+  createOrder,
+  updateOrderStatus,
+  updateTrackingProgress,
+  getCustomerOrders,
+  deleteOrder
 };

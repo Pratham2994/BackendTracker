@@ -1,12 +1,12 @@
 // userController.js
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import User from '../models/users.js';
-import nodemailer from 'nodemailer';
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const User = require('../models/users');
+const nodemailer = require('nodemailer');
 
-export const logout = (req, res) => {
+const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
     secure: process.env.SECURE_COOKIES === 'true',
@@ -17,9 +17,7 @@ export const logout = (req, res) => {
   return res.status(200).json({ message: 'Logged out successfully' });
 };
 
-
-
-export const login = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: 'Email and password are required.' });
@@ -52,8 +50,7 @@ export const login = async (req, res) => {
   }
 };
 
-
-export const profile = async (req, res) => {
+const profile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).send('User not found');
@@ -85,7 +82,7 @@ transporter.verify(function(error, success) {
   }
 });
 
-export const sendOtp = async (req, res) => {
+const sendOtp = async (req, res) => {
   let { email, password, role } = req.body;
   if (!email || !password || !role) {
     return res.status(400).json({ message: "Email, password, and role are required for OTP." });
@@ -174,7 +171,7 @@ export const sendOtp = async (req, res) => {
   }
 };
 
-export const verifyOtp = async (req, res) => {
+const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -203,7 +200,7 @@ export const verifyOtp = async (req, res) => {
   }
 };
 
-export const signup = async (req, res) => {
+const signup = async (req, res) => {
   let { role, email, password } = req.body;
   if (!role || !email || !password) {
     return res.status(400).json({ message: "Role, email, and password are required." });
@@ -253,9 +250,8 @@ export const signup = async (req, res) => {
   }
 };
 
-
 // New endpoint to update a user's role (for admin use)
-export const updateUserRole = async (req, res) => {
+const updateUserRole = async (req, res) => {
   const { email, newRole } = req.body;
   if (!email || !newRole) {
     return res.status(400).json({ message: "Email and new role are required." });
@@ -276,4 +272,14 @@ export const updateUserRole = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error updating user role", error: error.message });
   }
+};
+
+module.exports = {
+  logout,
+  login,
+  profile,
+  sendOtp,
+  verifyOtp,
+  signup,
+  updateUserRole
 };

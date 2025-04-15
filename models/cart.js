@@ -1,5 +1,5 @@
 // models/Cart.js
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const cartItemSchema = new mongoose.Schema({
   itemCode: { type: String, required: true },
@@ -16,4 +16,4 @@ const cartSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const Cart = mongoose.model('Cart', cartSchema);
-export default Cart;
+module.exports = Cart;

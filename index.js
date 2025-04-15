@@ -1,15 +1,15 @@
 // server.js
-import express from 'express';
-import { connectDb } from './config/db.js';
-import userRoutes from './routes/userRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
-import cartRoutes from './routes/cartRoutes.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import productRoutes from './routes/productRoutes.js';
-import dotenv from 'dotenv';
+const express = require('express');
+const { connectDb } = require('./config/db');
+const userRoutes = require('./routes/userRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const productRoutes = require('./routes/productRoutes');
+const dotenv = require('dotenv');
 
 // Load environment variables
 dotenv.config();

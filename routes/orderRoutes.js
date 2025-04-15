@@ -1,6 +1,6 @@
-import express from 'express';
-import { getCustomerOrders, createOrder, getAllOrders, updateOrderStatus, updateTrackingProgress, deleteOrder } from '../controllers/orderController.js';
-import { authenticateToken, isAdmin } from '../middleware/authMiddleware.js';
+const express = require('express');
+const { getCustomerOrders, createOrder, getAllOrders, updateOrderStatus, updateTrackingProgress, deleteOrder } = require('../controllers/orderController');
+const { authenticateToken, isAdmin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -11,4 +11,4 @@ router.put('/:orderId/status', authenticateToken, isAdmin, updateOrderStatus); /
 router.put('/:orderId/tracking', authenticateToken, isAdmin, updateTrackingProgress); // Update tracking progress
 router.delete('/:orderId', authenticateToken, isAdmin, deleteOrder); // Delete order
 
-export default router;
+module.exports = router;

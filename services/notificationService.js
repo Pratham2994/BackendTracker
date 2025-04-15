@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
-import twilio from 'twilio';
+const nodemailer = require('nodemailer');
+const twilio = require('twilio');
 
 // Nodemailer transporter configuration
 const transporter = nodemailer.createTransport({
@@ -20,7 +20,7 @@ const twilioClient = twilio(accountSid, authToken);
 const twilioWhatsAppFrom = process.env.TWILIO_WHATSAPP_FROM;
 const notificationWhatsAppTo = 'whatsapp:+919833342125';
 
-export const sendOrderNotificationEmail = async (order) => {
+const sendOrderNotificationEmail = async (order) => {
   try {
     const mailOptions = {
       from: `"Tracker System" <${process.env.EMAIL_USER}>`,
@@ -51,7 +51,7 @@ export const sendOrderNotificationEmail = async (order) => {
   }
 };
 
-export const sendOrderNotificationWhatsApp = async (order) => {
+const sendOrderNotificationWhatsApp = async (order) => {
   try {
     let itemsText = '';
     order.items.forEach(item => {
@@ -79,7 +79,7 @@ export const sendOrderNotificationWhatsApp = async (order) => {
   }
 };
 
-export const sendOrderStatusNotificationEmail = async (order) => {
+const sendOrderStatusNotificationEmail = async (order) => {
   try {
     let subject = '';
     let statusColor = '';
@@ -125,8 +125,6 @@ export const sendOrderStatusNotificationEmail = async (order) => {
   }
 };
 
-
-
 const buildItemsTable = (order) => {
   let itemsHtml = '';
   order.items.forEach(item => {
@@ -159,7 +157,7 @@ const buildItemsTable = (order) => {
   `;
 };
 
-export const sendTrackingUpdateNotificationEmail = async (order) => {
+const sendTrackingUpdateNotificationEmail = async (order) => {
   try {
     const subject = `Order Tracking Update`;
 
@@ -257,4 +255,11 @@ export const sendTrackingUpdateNotificationEmail = async (order) => {
     console.error("Error in sendTrackingUpdateNotificationEmail:", error);
     throw error;
   }
+};
+
+module.exports = {
+  sendOrderNotificationEmail,
+  sendOrderNotificationWhatsApp,
+  sendOrderStatusNotificationEmail,
+  sendTrackingUpdateNotificationEmail
 };

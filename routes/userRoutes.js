@@ -1,7 +1,7 @@
-import express from 'express';
-import { signup, login, updateUserRole, profile, sendOtp, verifyOtp, logout } from '../controllers/userController.js';
-import { authenticateToken } from '../middleware/authMiddleware.js';
-import nodemailer from 'nodemailer';
+const express = require('express');
+const { signup, login, updateUserRole, profile, sendOtp, verifyOtp, logout } = require('../controllers/userController');
+const { authenticateToken } = require('../middleware/authMiddleware');
+const nodemailer = require('nodemailer');
 
 const router = express.Router();
 
@@ -55,4 +55,4 @@ router.get('/profile', authenticateToken, profile);
 router.post('/logout', logout);
 router.put('/update-role', authenticateToken, updateUserRole);
 
-export default router;
+module.exports = router;

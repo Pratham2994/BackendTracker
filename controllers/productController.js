@@ -1,8 +1,8 @@
 // controllers/productController.js
-import Product from '../models/product.js';
-import mongoose from 'mongoose';
+const Product = require('../models/product');
+const mongoose = require('mongoose');
 
-export const getProducts = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
     const products = await Product.find({});
     res.status(200).json(products);
@@ -11,7 +11,7 @@ export const getProducts = async (req, res) => {
   }
 };
 
-export const updateProducts = async (req, res) => {
+const updateProducts = async (req, res) => {
   try {
     const products = req.body.products;
     if (!Array.isArray(products)) {
@@ -111,7 +111,7 @@ export const updateProducts = async (req, res) => {
   }
 };
 
-export const addProduct = async (req, res) => {
+const addProduct = async (req, res) => {
   try {
     const { itemCode, productName, drawingCode, revision, minimumOrderQuantity } = req.body;
     // Check for an existing product with the same item code, product name, or drawing code
@@ -143,7 +143,7 @@ export const addProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const deleted = await Product.findByIdAndDelete(id);
@@ -152,4 +152,11 @@ export const deleteProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error deleting product', error: error.message });
   }
+};
+
+module.exports = {
+  getProducts,
+  updateProducts,
+  addProduct,
+  deleteProduct
 };
